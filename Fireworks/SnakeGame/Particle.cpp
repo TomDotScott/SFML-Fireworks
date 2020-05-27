@@ -1,9 +1,11 @@
 #include "Particle.h"
 
 void Particle::Update() {
+	ApplyForce(m_gravity);
+
+	
 	m_velocity += m_acceleration;
 	m_shape.setPosition(m_velocity + m_shape.getPosition());
-
 
 	//Reset acceleration
 	m_acceleration.x = 0;

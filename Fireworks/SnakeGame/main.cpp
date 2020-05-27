@@ -2,46 +2,56 @@
 #include <SFML/Graphics.hpp>
 #include "Particle.h"
 
-int main()
-{
-    // All SFML types and functions are contained in the sf namespace
+int random_range(int a, int b) {
+	return rand() % b + a;
+}
 
-    // Create an instance of the SFML RenderWindow type which represents the display
-    // and initialise its size and title text
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Fireworks");
 
-	auto firework = new Particle(window.getSize().x / 2, window.getSize().y / 2);
+int main() {
+	sf::Clock clock;
+	srand(time(nullptr));
 
-	
-    // Main loop that continues until we call window.close()
-    while (window.isOpen())
-    {
-        // Handle any pending SFML events
-        // These cover keyboard, mouse,joystick etc.
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-          switch(event.type)
-          {
-            case sf::Event::Closed:
-              window.close();
-            break;
-            default:
-              break;
-          }
-        }
+	// Create an instance of the SFML RenderWindow type which represents the display
+	// and initialise its size and title text
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML Fireworks");
 
-        // We must clear the window each time around the loop
-        window.clear();
+	std::vector<Particle*> particles;
 
-		firework->Update();
-    	
-        // draw our circle shape to the window
-		firework->Render(window);
+	for (int i = 0; i < random_range(1, 50); ++i) {
+		auto firework = new Particle(random_range(0, window.getSize().x), window.getSize().y);
+		particles.push_back(firework);
+	}
 
-        // Get the window to display its contents
-        window.display();
-    }
 
-    return 0;
+
+	// Main loop that continues until we call window.close()
+	while (window.isOpen()) {
+		// Handle any pending SFML events
+		// These cover keyboard, mouse,joystick etc.
+		sf::Event event;
+		while (window.pollEvent(event)) {
+			switch (event.type) {
+			case sf::Event::Closed:
+				window.close();
+				break;
+			default:
+				break;
+			}
+		}
+
+		// We must clear the window each time around the loop
+		window.clear();
+
+
+
+		for (auto firework : particles) {
+			firework->Update();
+			firework->Render(window);
+		}
+		
+		// Get the window to display its contents
+		window.display();
+	}
+
+	return 0;
 }
