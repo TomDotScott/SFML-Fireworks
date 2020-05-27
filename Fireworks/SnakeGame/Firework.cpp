@@ -41,7 +41,11 @@ void Firework::Explode()
 	const int amount = constants::random_range(25, 50);
 	for(int i = 0; i < amount; ++i)
 	{
-		m_particles.emplace_back(m_master.GetPosition().x, m_master.GetPosition().y);
+		//m_particles.emplace_back(m_master.GetPosition().x, m_master.GetPosition().y);
+		const auto xVelocity = (static_cast<float>(constants::random_range(-9, 9))) / 10;
+		const auto yVelocity = (static_cast<float>(constants::random_range(-9, 9))) / 10;
+		Particle particle(m_master.GetPosition(), {xVelocity, yVelocity}, constants::random_range(3, 6), m_master.GetColour());
+		m_particles.emplace_back(particle);		
 	}
 }
 
