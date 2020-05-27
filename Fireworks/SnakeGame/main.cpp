@@ -2,11 +2,6 @@
 #include "Firework.h"
 #include "Constants.h"
 
-int random_range(int a, int b) {
-	return rand() % b + a;
-}
-
-
 int main() {
 	sf::Clock clock;
 	srand(time(nullptr));
@@ -28,7 +23,7 @@ int main() {
 	while (window.isOpen()) {
 		// Handle any pending SFML events
 		// These cover keyboard, mouse,joystick etc.
-		sf::Event event;
+		sf::Event event{};
 		while (window.pollEvent(event)) {
 			switch (event.type) {
 			case sf::Event::Closed:
@@ -42,13 +37,9 @@ int main() {
 		// We must clear the window each time around the loop
 		window.clear();
 
+		firework.Update();
+		firework.Render(window);
 
-
-		//for (auto firework : particles) {
-			firework.Update();
-			firework.Render(window);
-		//}
-		
 		// Get the window to display its contents
 		window.display();
 	}

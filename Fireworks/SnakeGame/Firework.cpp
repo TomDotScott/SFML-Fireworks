@@ -9,6 +9,7 @@ void Firework::Update()
 		m_master.Update();
 		if (m_master.GetVelocity().y >= 0) {
 			m_exploded = true;
+			Explode();
 		}
 	}
 	else {
@@ -23,6 +24,7 @@ void Firework::Update()
 void Firework::Render(sf::RenderWindow& _window)
 {
 	if (!m_exploded) {
+		
 		m_master.Render(_window);
 		
 	} else {
@@ -31,4 +33,16 @@ void Firework::Render(sf::RenderWindow& _window)
 		}
 	}
 }
+
+
+void Firework::Explode()
+{
+	//choose amount of particles
+	const int amount = constants::random_range(25, 50);
+	for(int i = 0; i < amount; ++i)
+	{
+		m_particles.emplace_back(m_master.GetPosition().x, m_master.GetPosition().y);
+	}
+}
+
 
