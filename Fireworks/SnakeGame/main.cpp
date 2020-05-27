@@ -1,15 +1,6 @@
-/*
-  Games Development with C++ GAV1031-N
-  Snake ICA start project 
-  
-  Set up to use the SFML 2.5.1 64-bit API
-    SFML documentation: https://www.sfml-dev.org/learn.php
-*/
-
 #include <iostream>
-
-// SFML header file for graphics, there are also ones for Audio, Window, System and Network
 #include <SFML/Graphics.hpp>
+#include "Particle.h"
 
 int main()
 {
@@ -17,17 +8,11 @@ int main()
 
     // Create an instance of the SFML RenderWindow type which represents the display
     // and initialise its size and title text
-    sf::RenderWindow window(sf::VideoMode(800, 600), "C++ Snake ICA : U0018197");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Fireworks");
 
-    // Create an instance of the SFML CircleShape and initialise it so radius is 100
-    sf::CircleShape shape(100.f);
+	auto firework = new Particle(window.getSize().x / 2, window.getSize().y / 2);
 
-    // Set the shape's fill colour attribute to Green
-    shape.setFillColor(sf::Color::Green);
-
-    // We can still output to the console window
-    std::cout << "SnakeGame: Starting" << std::endl;
-
+	
     // Main loop that continues until we call window.close()
     while (window.isOpen())
     {
@@ -49,14 +34,14 @@ int main()
         // We must clear the window each time around the loop
         window.clear();
 
+		firework->Update();
+    	
         // draw our circle shape to the window
-        window.draw(shape);
+		firework->Render(window);
 
         // Get the window to display its contents
         window.display();
     }
-
-    std::cout << "SnakeGame: Finished" << std::endl;
 
     return 0;
 }
