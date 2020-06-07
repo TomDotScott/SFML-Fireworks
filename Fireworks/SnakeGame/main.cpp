@@ -1,6 +1,27 @@
 #include <SFML/Graphics.hpp>
 #include "Firework.h"
 #include "Constants.h"
+#include <list>
+
+std::list<sf::Vector2f> m_segments{ {0, 1}, {2, 3}, {4, 5} };
+std::list<sf::Vector2f> list1{ {4, 5}, {6, 7}, {8, 9} };
+
+bool CheckCollision(Snake& snake)
+{
+	for(auto& segment : m_segments)
+	{
+		for(auto& otherSegment : snake.GetSegments())
+		{
+			if(segment == otherSegment)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+
 
 int main() {
 	sf::Clock clock;
@@ -12,8 +33,7 @@ int main() {
 
 	std::vector<Firework> fireworks;
 
-	for(int i = 0; i < 10; ++i)
-	{
+	for (int i = 0; i < 10; ++i) {
 		Firework fw({ static_cast<float>(constants::random_range(0, constants::k_screenWidth)), constants::k_screenHeight },
 			{ 0, static_cast<float>(constants::random_range(5, 10)) / 10 },
 			{ static_cast<uint8_t>(constants::random_range(0, 255)),
@@ -42,16 +62,14 @@ int main() {
 		window.clear();
 
 
-		for (auto& firework : fireworks)
-		{
-			if(firework.HasFinished())
-			{
+		for (auto& firework : fireworks) {
+			if (firework.HasFinished()) {
 				firework.Reset();
 			}
 			firework.Update();
 			firework.Render(window);
 		}
-			
+
 		// Get the window to display its contents
 		window.display();
 	}
